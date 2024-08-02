@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mysql-2:
+    image: mysql:8.0
+    container_name: backup-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: backup
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-data-backup:/var/lib/mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: talend
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  talend:
+    image: semi22/backupimage
+    container_name: talend-container
+    depends_on:
+      - mysql-2
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: talend
+      DB_USER: root
+      DB_PASSWORD: rootpassword
+      DB_HOST2: mysql-2
+      DB_PORT2: 3306
+      DB_NAME2: backup
+      DB_USER2: root
+      DB_PASSWORD2: rootpassword
+
+volumes:
+  mysql-data:
+  mysql-data-backup:
