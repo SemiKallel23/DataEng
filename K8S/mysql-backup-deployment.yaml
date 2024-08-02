@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-backup
+spec:
+  selector:
+    matchLabels:
+      app: mysql-backup
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql-backup
+    spec:
+      containers:
+        - name: mysql-backup
+          image: mysql:8.0
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "rootpassword"
+            - name: MYSQL_DATABASE
+              value: "backup"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-backup-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-backup-storage
+          persistentVolumeClaim:
+            claimName: mysql-backup-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-backup
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: mysql-backup

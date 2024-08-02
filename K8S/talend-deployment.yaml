@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: talend-cronjob
+spec:
+  schedule: "0 0 * * *"  
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: talend
+        spec:
+          containers:
+            - name: talend
+              image: semi22/test
+              env:
+                - name: DB_HOST
+                  value: "mysql"
+                - name: DB_PORT
+                  value: "3306"
+                - name: DB_NAME
+                  value: "talend"
+                - name: DB_USER
+                  value: "root"
+                - name: DB_PASSWORD
+                  value: "rootpassword"
+                - name: DB_HOST2
+                  value: "mysql-backup"
+                - name: DB_PORT2
+                  value: "3306"
+                - name: DB_NAME2
+                  value: "backup"
+                - name: DB_USER2
+                  value: "root"
+                - name: DB_PASSWORD2
+                  value: "rootpassword"
+              ports:
+                - containerPort: 8080
+          restartPolicy: OnFailure
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: talend
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: talend
