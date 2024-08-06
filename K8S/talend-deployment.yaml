@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: talend
-              image: semi22/test
+              image: uniqueacrregistrybackup.azurecr.io/backupimage:latest 
               env:
                 - name: DB_HOST
                   value: "mysql"
@@ -38,7 +38,8 @@ spec:
               ports:
                 - containerPort: 8080
           restartPolicy: OnFailure
-
+          imagePullSecrets:
+            - name: acr-auth
 ---
 apiVersion: v1
 kind: Service
