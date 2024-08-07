@@ -69,11 +69,11 @@ stages:
             inputs:
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/K8S/mysql-pv.yaml
-                $(Pipeline.Workspace)/K8S/mysql-backup-pv.yaml
-                $(Pipeline.Workspace)/K8S/mysql-deployment.yaml
-                $(Pipeline.Workspace)/K8S/mysql-backup-deployment.yaml
-                $(Pipeline.Workspace)/K8S/talend-deployment.yaml
+                $(Pipeline.Workspace)/manifests/mysql-pv.yaml
+                $(Pipeline.Workspace)/manifests/mysql-backup-pv.yaml
+                $(Pipeline.Workspace)/manifests/mysql-deployment.yaml
+                $(Pipeline.Workspace)/manifests/mysql-backup-deployment.yaml
+                $(Pipeline.Workspace)/manifests/talend-deployment.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
