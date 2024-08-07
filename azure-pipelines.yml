@@ -14,7 +14,7 @@ variables:
   dockerRegistryServiceConnection: '1e6bc2b1-d464-4851-bc97-2c7ace8fb4a7'
   imageRepository: 'semikalleltest'
   containerRegistry: 'uniqueacrregistrybackup.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
+  dockerfilePath: '**/dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'acr-auth'
 
